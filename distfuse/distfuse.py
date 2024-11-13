@@ -58,7 +58,15 @@ class DistFuse():
             scores = model.score_pair(["I like apple", "I like cats"], ["I like orange", "I like dogs"])
             print(scores)
     """
-    def __init__(self, model_checkpoints:List[List[str]], weights:List[float]=None, instructions:List[str]=None, dist_measure:str="euclid", openai_token:str=None, cohere_token:str=None, device:str=None):
+    def __init__(self, 
+                 model_checkpoints:List[List[str]], 
+                 weights:List[float]=None, 
+                 instructions:List[str]=None, 
+                 dist_measure:str="euclid", 
+                 ensemble_method: str = 'weighted_sum', 
+                 openai_token:str=None, 
+                 cohere_token:str=None, 
+                 device:str=None):
         """
             Args:
                 model_checkpoints (List[str]): a list of model checkpoints and types
@@ -73,6 +81,7 @@ class DistFuse():
         self.models = []
         self.instructions = []
         self.opt = None
+        self.ensemble_method = ensemble_method
 
         if dist_measure == "euclidean":
             self.dist_measure = euclidean_distances
